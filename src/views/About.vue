@@ -5,9 +5,11 @@
   </div>
 
   <div class="show">
-    <div ref="move_div" @touchstart="down" @touchmove="move" @touchend="end" :style="{left:`${left1}px`}" class="showAll">
-      <img v-for="(item,index) in imgList"  :src="item.imgUrl" alt="" :key="index">
+     <transition name="slide-fade">
+    <div ref="move_div" v-if="a"  @touchstart="down" @touchmove="move" @touchend="end" :style="{left:`${left1}px`}" class="showAll">
+      <img v-for="(item,index) in imgList1"  :src="item.imgUrl" alt="" :key="index">
     </div>
+     </transition>
   </div>
   </div>
 </template>
@@ -19,19 +21,36 @@ export default {
         {imgUrl:"https://climg.mukewang.com/5e450a5e084ba43b03000170.jpg"},
         {imgUrl:"https://climg.mukewang.com/5e450a88083e4ca703000170.jpg"},
         {imgUrl:"https://img2.mukewang.com/szimg/59c0f06e0001150805400300-360-202.jpg"},
+        {imgUrl:"https://climg.mukewang.com/5e450a5e084ba43b03000170.jpg"},
+        {imgUrl:"https://climg.mukewang.com/5e450a88083e4ca703000170.jpg"},
+        {imgUrl:"https://img2.mukewang.com/szimg/59c0f06e0001150805400300-360-202.jpg"},
       ],
       position: {x: 0, y: 0, left: 0, top: 0},
       left1:'0',
       top: 0,
       left: 0,
+      index:0,
+      imgList1:[],
+      a:true
     }
   },
   mounted(){
     let _this = this
     setInterval(()=>{
-      for(let i = 0;i<10;i++){
-        _this.left1 -= 34
-      }
+
+      _this.a = false
+      // for(let i = 0;i<10;i++){
+      //   _this.left1 -= 340
+      // }
+      if(this.index === this.imgList.length-2)
+      _this.index = 0
+      
+      _this.imgList1 = [_this.imgList[_this.index],_this.imgList[_this.index+1]]
+      _this.index +=1
+      this.$nextTick(() => {
+
+      _this.a = true
+      })
       
     },2000)
   },
@@ -110,4 +129,16 @@ export default {
     width: 300px;
     height: 100%;
   }
+
+  .slide-fade-enter-active {
+  transition: all 3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  /* transform: translateX(-220px);
+  opacity: 1; */
+}
 </style>
