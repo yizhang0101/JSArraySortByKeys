@@ -2,6 +2,78 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
     <HelloWorld msg="Welcome to Your Vue.js App" />
+
+    <!-- <div class="p1">
+      <div class="p2"></div>
+      <div class="p4"></div>
+    </div>
+    <div class="p3"></div> -->
+    <div style="height:100px;display:flex;align-items:center;padding: 0 30px;-webkit-backface-visibility: hidden; 
+  -webkit-transform-style: preserve-3d;">
+
+      <mt-swipe :auto="2000" :show-indicators="false"  style="width:33.33%">
+        <mt-swipe-item v-for="(item,index) in imgUrls" :key="index">
+          <img @touchstart="start" @touchend="end(item.imgUrl,index)" v-lazy="item.imgUrl" alt="">
+        </mt-swipe-item>
+        <mt-swipe-item>
+          <mt-swipe :auto="2000" :show-indicators="false" style="width:100%">
+            <mt-swipe-item v-for="(item,index) in imgUrls" :key="index">
+              <img @tap="tap(index,item.imgUrl)" v-lazy="item.imgUrl" alt="">
+            </mt-swipe-item>
+          </mt-swipe>
+        </mt-swipe-item>
+      </mt-swipe>
+      <mt-swipe :auto="0" :show-indicators="false" style="width:33.33%">
+        <mt-swipe-item v-for="(item,index) in imgUrls" :key="index"  @tap="tap(index,item.imgUrl)">
+          <img v-lazy="item.imgUrl" alt="">
+        </mt-swipe-item>
+      </mt-swipe>
+       <mt-swipe :auto="0" :show-indicators="false" style="width:33.33%">
+        <mt-swipe-item v-for="(item,index) in imgUrls" :key="index"  @tap="tap(index,item.imgUrl)">
+          <img v-lazy="item.imgUrl" alt="">
+        </mt-swipe-item>
+      </mt-swipe>
+      <!-- <div class="p3">
+        <img :src="imgUrls[1].imgUrl" alt="">
+      </div> -->
+    </div>
+
+    <div style="height:100px;display:flex;align-items:center;padding: 0 30px;">
+
+      <mt-swipe :auto="0" :show-indicators="false"  style="width:33.33%">
+        <mt-swipe-item @tap="alert1('1_1')" v-for="(item,index) in imgUrls" :key="index">
+          <mt-swipe v-if="index === 0"  :auto="2000" :show-indicators="false" style="width:100%">
+            <mt-swipe-item v-for="(item,index) in imgUrls" :key="index" @tap="alert1(2)">
+              <img @tap="tap(index,item.imgUrl)" v-lazy="item.imgUrl" alt="">
+            </mt-swipe-item>
+          </mt-swipe>
+          <img v-else @tap="tap(index,item.imgUrl)" v-lazy="item.imgUrl" alt="">
+        </mt-swipe-item>
+        <!-- <mt-swipe-item v-for="(item,index) in imgUrls" :key="index" @tap="alert1(1)">
+          <img v-lazy="item.imgUrl" alt="">
+        </mt-swipe-item> -->
+        
+      </mt-swipe>
+      <mt-swipe :auto="0" :show-indicators="false" style="width:33.33%">
+        <mt-swipe-item v-for="(item,index) in imgUrls" :key="index"  @tap="tap(index,item.imgUrl)">
+          <img v-lazy="item.imgUrl" alt="">
+        </mt-swipe-item>
+      </mt-swipe>
+       <mt-swipe :auto="0" :show-indicators="false" style="width:33.33%">
+        <mt-swipe-item v-for="(item,index) in imgUrls" :key="index"  @tap="tap(index,item.imgUrl)">
+          <img v-lazy="item.imgUrl" alt="">
+        </mt-swipe-item>
+      </mt-swipe>
+      <mt-swipe :auto="0" :show-indicators="false" style="width:33.33%">
+        <mt-swipe-item v-for="(item,index) in imgUrls" :key="index"  @tap="tap(index,item.imgUrl)">
+          <img v-lazy="item.imgUrl" alt="">
+        </mt-swipe-item>
+      </mt-swipe>
+    </div>
+
+    <div v-for="(item,index) in imgUrls" :key="index">
+      <img  :src="item.imgUrl" alt="">
+    </div>
   </div>
 </template>
 
@@ -54,7 +126,18 @@ export default {
             { x1: "x1_2", x2: "x2_2" }
           ]
         }
-      ]
+      ],
+      imgUrls:[
+        {imgUrl:"https://climg.mukewang.com/5e450a5e084ba43b03000170.jpg"},
+        {imgUrl:"https://climg.mukewang.com/5e450a88083e4ca703000170.jpg"},
+        {imgUrl:"https://img2.mukewang.com/szimg/59c0f06e0001150805400300-360-202.jpg"},
+        {imgUrl:"https://climg.mukewang.com/5e450a5e084ba43b03000170.jpg"},
+        {imgUrl:"https://climg.mukewang.com/5e450a88083e4ca703000170.jpg"},
+        {imgUrl:"https://img2.mukewang.com/szimg/59c0f06e0001150805400300-360-202.jpg"},
+
+      ],
+      startTime:null,
+      endTime:null,
     };
   },
   mounted() {
@@ -89,8 +172,70 @@ export default {
           }
           return value1 - value2;
       }
+    },
+    clk(a,b){
+      alert(`clk|${a}|${b}`)
+    },
+    start(){
+      this.startTime = new Date()
+    },
+    end(a,b){
+      this.endTime = new Date()
+      if(this.endTime - this.startTime < 60){
+        console.log(this.endTime - this.startTime)
+        this.clk(a,b)
+      }
+      console.log(this.endTime - this.startTime)
+      console.log(`end|${a}|${b}`)
+
+    },
+    tap(a,b){
+      console.log(`tap|${a}|${b}`)
+    },
+    alert1(a){
+      alert(a)
     }
 
   }
 };
 </script>
+<style scoped>
+  .home { -webkit-backface-visibility: hidden; 
+  -webkit-transform-style: preserve-3d; }
+  .p1{
+    position: relative;
+    border: 1px solid #f00
+  }
+  .p1:after{
+            content: "";
+            /*转换为一个块元素*/
+            display: block;
+            /*清除两侧的浮动*/
+            clear: both;
+        }
+  .p2{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #0f0
+  }
+  .p3{
+    width: 100%;
+    height: 200px;
+    position:relative;
+  }
+  .p3 img{
+    width: 100%;
+    height: 100%;
+  }
+  .p4{
+    border: 1px solid #00f;
+    height: 210px;
+  }
+  img{
+    height: 100%;
+    width: 100%;
+    /* display: block; */
+  }
+</style>
+
