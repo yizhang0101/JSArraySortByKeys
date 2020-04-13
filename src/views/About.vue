@@ -11,6 +11,13 @@
     </div>
      </transition>
   </div>
+
+
+    <div class="aaa" @click="fun('a')" style="width:100px;height:100px;border:1px solid #ccc;">
+      <div class="aaa" style="width:100px;height:100px;border:1px solid #ccc;">
+        <div style="width:100px;height:100px;border:1px solid #ccc;" @click="fun('b')"></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -105,6 +112,9 @@ export default {
       } else if (this.top > this.height - refs.height) {
         this.top = this.height - refs.height
       }
+    },
+    fun(a){
+      console.log(a)
     }
   }
 }
@@ -130,15 +140,22 @@ export default {
     height: 100%;
   }
 
-  .slide-fade-enter-active {
+  /* .slide-fade-enter-active {
   transition: all 3s ease;
 }
 .slide-fade-leave-active {
   transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
+} */
+/* .slide-fade-enter, .slide-fade-leave-to */
+/* .slide-fade-leave-active for below version 2.1.8 { */
   /* transform: translateX(-220px);
   opacity: 1; */
-}
+/* } */
+
+.aaa{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between
+  }
 </style>
